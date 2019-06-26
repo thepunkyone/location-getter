@@ -51,9 +51,6 @@
     <script>
       let watchId;
       const getLocation = () => {
-        if (watchId !== undefined) {
-          navigator.geolocation.clearWatch(watchId);
-        }
         const coordinatesList = document.querySelector('.coordinates-list');
 
         const success = (position) => {
@@ -82,7 +79,7 @@
         };
 
         const error = () => {
-            console.log('Unable to retrieve your location');
+            alert('Unable to retrieve your location');
         };
 
         const options = {
