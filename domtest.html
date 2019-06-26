@@ -46,15 +46,17 @@
     <div class="boxes-list">
     </div>
     <script>
+      let interval;
       const drawBoxes = () => {
-        const boxList = document.querySelector('.boxes-list');
-        const box = document.createElement('div');
-        box.classList.add("box");
-        boxList.append(box);
+        interval = window.setInterval(() => {
+          const boxList = document.querySelector('.boxes-list');
+          const box = document.createElement('div');
+          box.classList.add("box");
+          boxList.append(box);
+        }, 1000); 
       };
-      const intervalBoxes = window.setInterval(drawBoxes, 1000)
-      document.getElementById('start').addEventListener('click', () => intervalBoxes);
-      document.getElementById('stop').addEventListener('click', () => window.clearInterval(intervalBoxes));
+      document.getElementById('start').addEventListener('click', drawBoxes);
+      document.getElementById('stop').addEventListener('click', () => window.clearInterval(interval));
     </script>
   </body>
 </html>
