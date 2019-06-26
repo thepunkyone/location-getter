@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta title="Location Getter | Location Tracking" />
+    <meta lang="en">
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <div class="coordinates-list">
+    </div>
+    <script>
+      const getLocation = () => {
+        const coordinatesList = document.querySelector('.coordinates-list');
+
+        const success = () => {
+
+        };
+
+        if ("geolocation" in navigator) {
+            console.log('Geolocation is available.');
+          
+        } else {
+          console.log('Geolocation is not available.');
+         
+        }
+      };
+
+      document.addEventListener('DOMContentLoaded', getLocation);
+    </script>
+  </body>
+</html>
