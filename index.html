@@ -54,7 +54,7 @@
         const coordinatesList = document.querySelector('.coordinates-list');
 
         const success = (position) => {
-          const { latitude, longitude, speed, altitude }  = position.coords;
+          const { latitude, longitude, speed, altitude, heading }  = position.coords;
           const { timestamp } = position;
           const localDate = new Date(timestamp).toLocaleDateString("en-GB")
           const localTime = new Date(timestamp).toLocaleTimeString("en-GB") 
@@ -69,10 +69,12 @@
           pSpeed.append(`Speed: ${speed}`);
           const pAltitude = document.createElement("p");
           pAltitude.append(`Altitude: ${altitude}`);
+          const pHeading = document.createElement("p");
+          pHeading.append(`Heading: ${heading}`);
 
           const coordinate = document.createElement("div");
           coordinate.classList.add("coordinate");
-          coordinate.append(pTimestamp, pLatitude, pLongitude, pSpeed, pAltitude);
+          coordinate.append(pTimestamp, pLatitude, pLongitude, pSpeed, pAltitude, pHeading);
           coordinatesList.append(coordinate);
         };
 
