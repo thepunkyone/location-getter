@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta title="Location Getter | Location Tracking" />
+    <meta lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      body {
+        margin: 0;
+        margin-top: 5em;
+        font-size: 16px;
+      }
+
+      .menu {
+        background: green;
+        padding-top: 1em;
+        padding-bottom: 1em;
+        text-align: center;
+        position: fixed;
+        width: 100%;
+        margin-top: -5em;
+      }
+
+      button {
+        width: 100px;
+      }
+
+      .box {
+        margin: 1em;
+        border: 2px solid green;
+        padding: 0.5em;
+        height: 200px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="menu">
+      <button id="start">
+        Start
+      </button>
+      <button id="stop">
+        Stop
+      </button>
+    </div>
+    <div class="boxes-list">
+    </div>
+    <script>
+      const drawBoxes = () => {
+        const boxList = document.querySelector('.boxes-list');
+        const box = document.createElement('div');
+        box.classList.add("box");
+        boxList.append(box);
+      };
+      const intervalBoxes = window.setInterval(drawBoxes, 1000)
+      document.getElementById('start').addEventListener('click', () => intervalBoxes);
+      document.getElementById('stop').addEventListener('click', () => window.clearInterval(intervalBoxes));
+    </script>
+  </body>
+</html>
