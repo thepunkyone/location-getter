@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta title="Location Getter | Location Tracking" />
+    <meta lang="en">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+      body {
+        margin: 0;
+        margin-top: 5em;
+        font-size: 16px;
+      }
+
+      .menu {
+        background: green;
+        padding-top: 1em;
+        padding-bottom: 1em;
+        text-align: center;
+        position: fixed;
+        width: 100%;
+        margin-top: -5em;
+      }
+
+      button {
+        width: 100px;
+      }
+
+      .coordinate {
+        margin: 1em;
+        border: 2px solid green;
+        padding: 0.5em;
+      }
+
+      .coordinate p {
+        margin: 0.5em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="menu">
+      <button id="start">
+        Start
+      </button>
+      <button id="stop">
+        Stop
+      </button>
+    </div>
+    <div class="coordinates-list">
+    </div>
+    <script>
+      let interval;
+      const getLocation = () => {
+        interval = window.setInterval(() => {
+        
+          const coordinatesList = document.querySelector('.coordinates-list');
+          const success = (position) => {
+              const { latitude, longitude, speed, altitude, heading }  = position.coords;
+              const { timestamp } = position;
+              const localDate = new Date(timestamp).toLocaleDateString("en-GB")
+              const localTime = new Date(timestamp).toLocaleTimeString("en-GB") 
+
+              const pTimestamp = document.createElement("p");
+              pTimestamp.append(`Timestamp: ${localDate} ${localTime}`);
+              const pLatitude = document.createElement("p");
+              pLatitude.append(`Latitude: ${latitude}`);
+              const pLongitude = document.createElement("p");
+              pLongitude.append(`Longitude: ${longitude}`);
+              const pSpeed = document.createElement("p");
+              pSpeed.append(`Speed: ${speed}`);
+              const pAltitude = document.createElement("p");
+              pAltitude.append(`Altitude: ${altitude}`);
+              const pHeading = document.createElement("p");
+              pHeading.append(`Heading: ${heading}`);
+
+              const coordinate = document.createElement("div");
+              coordinate.classList.add("coordinate");
+              coordinate.append(pTimestamp, pLatitude, pLongitude, pSpeed, pAltitude, pHeading);
+              coordinatesList.append(coordinate);
+            };
+
+          const error = () => {
+              alert('Unable to retrieve your location');
+          };
+
+          const options = {
+            enableHighAccuracy: true,
+            timeout: 60000,
+            maximumAge: 60000,
+          };
+
+          if (!navigator.geolocation) {
+            console.log('Geolocation is not supported by your browser');
+          } else {
+            console.log('Locating…');
+            window.setInterval(navigator.geolocation.getCurrentPosition(success, error, options), 6000);
+          }
+        }, 1000);
+      };
+      document.getElementById('start').addEventListener('click', getLocation);
+      document.getElementById('stop').addEventListener('click', () => window.clearInterval(interval));
+    </script>
+  </body>
+</html>
