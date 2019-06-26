@@ -92,7 +92,7 @@
           console.log('Geolocation is not supported by your browser');
         } else {
           console.log('Locating…');
-          setInterval(watchId = navigator.geolocation.watchPosition(success, error, options), 1000);
+          watchId = navigator.geolocation.watchPosition(success, error, options);
         }
       };
       document.getElementById('start').addEventListener('click', getLocation);
