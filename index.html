@@ -13,23 +13,40 @@
         const coordinatesList = document.querySelector('.coordinates-list');
 
         const success = (position) => {
-          const latitude  = position.coords.latitude;
-          const longitude = position.coords.longitude;
+          const { latitude, longitude, speed, altitude }  = position.coords;
+          const { timestamp } = position;
 
-          var p = document.createElement("p");
-          p.append(`Latitude: ${latitude} Longitude: ${longitude}`);
-          coordinatesList.appendChild(p);
+          const pTimestamp = document.createElement("p");
+          pTimestamp.append(`Timestamp: ${timestamp}`);
+          const pLatitude = document.createElement("p");
+          pLatitude.append(`Latitude: ${latitude}`);
+          const pLongitude = document.createElement("p");
+          pLongitude.append(`Longitude: ${longitude}`);
+          const pSpeed = document.createElement("p");
+          pSpeed.append(`Speed: ${speed}`);
+          const pAltitude = document.createElement("p");
+          pAltitude.append(`Altitude: ${altitude}`);
+
+          const coordinate = document.createElement("div");
+          coordinate.append(pTimestamp, pLatitude, pLongitude, pSpeed, pAltitude);
+          coordinatesList.append(coordinate);
         };
 
         const error = () => {
             console.log('Unable to retrieve your location');
         };
 
+        const options = {
+          enableHighAccuracy: true,
+          timeout: 60000,
+          maximumAge: 60000,
+        };
+
         if (!navigator.geolocation) {
           console.log('Geolocation is not supported by your browser');
         } else {
           console.log('Locating…');
-          navigator.geolocation.getCurrentPosition(success, error);
+          navigator.geolocation.watchPosition(success, error, options);
         }
       };
 
