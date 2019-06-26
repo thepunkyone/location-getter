@@ -12,16 +12,24 @@
       const getLocation = () => {
         const coordinatesList = document.querySelector('.coordinates-list');
 
-        const success = () => {
+        const success = (position) => {
+          const latitude  = position.coords.latitude;
+          const longitude = position.coords.longitude;
 
+          var p = document.createElement("p");
+          p.append(`Latitude: ${latitude} Longitude: ${longitude}`);
+          coordinatesList.appendChild(p);
         };
 
-        if ("geolocation" in navigator) {
-            console.log('Geolocation is available.');
-          
+        const error = () => {
+            console.log('Unable to retrieve your location');
+        };
+
+        if (!navigator.geolocation) {
+          console.log('Geolocation is not supported by your browser');
         } else {
-          console.log('Geolocation is not available.');
-         
+          console.log('Locating…');
+          navigator.geolocation.getCurrentPosition(success, error);
         }
       };
 
