@@ -4,20 +4,60 @@
     <meta title="Location Getter | Location Tracking" />
     <meta lang="en">
     <meta charset="utf-8">
+    <style>
+      body {
+        margin: 0;
+        margin-top: 5em;
+      }
+
+      .menu {
+        background: green;
+        padding: 1em;
+        text-align: center;
+        position: fixed;
+        width: 100%;
+        margin-top: -5em;
+      }
+
+      button {
+        width: 100px;
+      }
+
+      .coordinate {
+        margin: 1em;
+        border: 2px solid green;
+        padding: 0.5em;
+      }
+
+      .coordinate p {
+        margin: 0.5em;
+      }
+    </style>
   </head>
   <body>
+    <div class="menu">
+      <button id="start">
+        Start
+      </button>
+      <button id="stop">
+        Stop
+      </button>
+    </div>
     <div class="coordinates-list">
     </div>
     <script>
+      let watchId;
       const getLocation = () => {
         const coordinatesList = document.querySelector('.coordinates-list');
 
         const success = (position) => {
           const { latitude, longitude, speed, altitude }  = position.coords;
           const { timestamp } = position;
+          const localDate = new Date(timestamp).toLocaleDateString("en-GB")
+          const localTime = new Date(timestamp).toLocaleTimeString("en-GB") 
 
           const pTimestamp = document.createElement("p");
-          pTimestamp.append(`Timestamp: ${timestamp}`);
+          pTimestamp.append(`Timestamp: ${localDate} ${localTime}`);
           const pLatitude = document.createElement("p");
           pLatitude.append(`Latitude: ${latitude}`);
           const pLongitude = document.createElement("p");
@@ -28,6 +68,7 @@
           pAltitude.append(`Altitude: ${altitude}`);
 
           const coordinate = document.createElement("div");
+          coordinate.classList.add("coordinate");
           coordinate.append(pTimestamp, pLatitude, pLongitude, pSpeed, pAltitude);
           coordinatesList.append(coordinate);
         };
@@ -46,11 +87,11 @@
           console.log('Geolocation is not supported by your browser');
         } else {
           console.log('Locating…');
-          navigator.geolocation.watchPosition(success, error, options);
+          watchId = navigator.geolocation.watchPosition(success, error, options);
         }
       };
-
-      document.addEventListener('DOMContentLoaded', getLocation);
+      document.getElementById('start').addEventListener('click', getLocation);
+      document.getElementById('stop').addEventListener('click', () => navigator.geolocation.clearWatch(watchId));
     </script>
   </body>
 </html>
